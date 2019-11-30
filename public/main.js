@@ -9,6 +9,5 @@ socket.addEventListener('message', (message) => {
 
 window.addEventListener('scroll', (event) => {
   const y = window.scrollY
-  console.log(y)
-  socket.send(y)
+  if (socket) socket.send(y)
 })
