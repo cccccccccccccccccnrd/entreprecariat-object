@@ -2,28 +2,77 @@ const path = require('path')
 const express = require('express')
 const WebSocket = require('ws')
 
-const screens = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
-const state = {}
+const state = {
+  scrollTop: '',
+  screenAmount: 0,
+  topbarTextOffset: 0
+}
 
 const app = express()
-screens.forEach((screen) => {
-  app.use(`/${ screen === '0' ? '' : screen }`, express.static(path.join(__dirname, `screens/${ screen }`)))
-})
+
+app.use('/:id', express.static(path.join(__dirname, 'screens')))
 
 const wss = new WebSocket.Server({ port: 3334 })
 
 wss.on('connection', (ws) => {
-  ws.on('message', (message) => {
-    console.log(message)
+  console.log('new connection', wss.clients.size)
+  state.screenAmount = wss.clients.size
+  topbar()
 
-    wss.clients.forEach((client) => {
-      if (client.readyState === WebSocket.OPEN) {
-        if (client !== ws && client.readyState === WebSocket.OPEN) {
-          client.send(message)
+  ws.on('message', (message) => {
+    const msg = JSON.parse(message)
+    console.log(msg)
+
+    switch(msg.type) {
+      case 'setup':
+        console.log('setup')
+        break
+      case 'scroll':
+        if (state.scrollTop === msg.payload) {
+          return state.scrollTop = msg.payload
         }
-      }
-    })
+        state.scrollTop = msg.payload
+        broadcast(JSON.stringify(msg), ws)
+        break
+    }
   })
 })
+
+function broadcast(msg, ws) {
+  if (ws) {
+    wss.clients.forEach((client) => {
+      if (client !== ws && client.readyState === WebSocket.OPEN) {
+        client.send(msg)
+      }
+    })
+  } else {
+    wss.clients.forEach((client) => {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(msg)
+      }
+    })
+  }
+}
+
+let topbarInterval
+function topbar() {
+  if (topbarInterval) {
+    clearInterval(topbarInterval)
+  }
+
+  const topbarTextOffsetWidth = 360 * state.screenAmount
+  topbarInterval = setInterval(() => {
+    const msg = {
+      type: 'topbar-scroll',
+      payload: state.topbarTextOffset
+    }
+    
+    broadcast(JSON.stringify(msg))
+
+    state.topbarTextOffset = state.topbarTextOffset < topbarTextOffsetWidth * -1 ? topbarTextOffsetWidth : state.topbarTextOffset - 2
+  }, 30)
+}
+
+topbar()
 
 app.listen(3333, () => console.log(`server runnin on http://localhost:3333`))
