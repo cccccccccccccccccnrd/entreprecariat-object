@@ -1,4 +1,4 @@
-const url = window.location.hostname === 'localhost' ? 'ws://localhost:3334' : 'ws://192.168.178.20:3334'
+const url = window.location.hostname === 'localhost' ? 'ws://localhost:3334' : 'ws://192.168.0.100:3334'
 const socket = new WebSocket(url)
 
 const id = window.location.pathname.replace(/^\/|\/$/g, '')
@@ -6,7 +6,7 @@ const section = document.getElementById(id)
 const topbarText = document.getElementById('topbar-text')
 
 const screenWidth = 360
-const dividerWidth = 35
+const dividerWidth = 100
 
 document.title = `${id} * interface`
 console.log(id)
