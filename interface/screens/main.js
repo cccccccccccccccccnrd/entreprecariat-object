@@ -1,4 +1,4 @@
-const url = window.location.hostname === 'localhost' ? 'ws://localhost:3334' : 'ws://192.168.0.100:3334'
+const url = window.location.hostname === 'localhost' ? 'ws://localhost:3334' : 'ws://192.168.0.106:3334'
 const socket = new WebSocket(url)
 
 const id = window.location.pathname.replace(/^\/|\/$/g, '')
