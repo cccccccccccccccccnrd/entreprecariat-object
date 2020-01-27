@@ -6,7 +6,7 @@ const section = document.getElementById(id)
 const topbarText = document.getElementById('topbar-text')
 
 const screenWidth = 360
-const dividerWidth = 100
+const dividerWidth = 75
 
 document.title = `${id} * interface`
 console.log(id)
