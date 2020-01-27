@@ -157,6 +157,7 @@ function type(string) {
     
         const coords = keyboard[key]
         if (coords) ra.tap(coords.x, coords.y)
+        sleep(1000)
       })
   }
   
@@ -166,9 +167,11 @@ function type(string) {
 const ra = new RootAutomator()
 
 launch('com.android.chrome')
-sleep(500)
-click('Search')
-sleep(500)
+sleep(10000)
+id('home_button').findOne().click()
+sleep(3000)
+id('search_box_text').findOne().click()
+sleep(3000)
 type('www.cnrd.computer')
 type('ENTER')
 
