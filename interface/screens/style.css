@@ -11,7 +11,7 @@
 :root {
   --screen-width: 360px;
   --screen-amount: 7;
-  --gap-width: 75px;
+  --gap-width: 100px;
   --full-body-width: calc(var(--screen-width) * var(--screen-amount) + var(--gap-width) * calc(var(--screen-amount) - 1));
   --topbar-height: 60px;
 }
