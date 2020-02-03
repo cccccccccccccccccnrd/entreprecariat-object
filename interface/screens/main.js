@@ -70,7 +70,16 @@ section.addEventListener('scroll', (event) => {
 })
 
 setTimeout(() => {
-  const x = Number(id) === 1 ? 0 : ((id * screenWidth) + ((id - 1) * dividerWidth)) - screenWidth
+  let x = 0
+
+  if (Number(id) === 1) {
+    return
+  } else if (Number(id) === 6 || Number(id) === 7) {
+    x = ((id * screenWidth) + ((id + 1) * dividerWidth)) - screenWidth
+  } else {
+    x = ((id * screenWidth) + ((id - 1) * dividerWidth)) - screenWidth
+  }
+
   window.scroll(x, 0)
   console.log(x)
-}, 10)
+}, 20)

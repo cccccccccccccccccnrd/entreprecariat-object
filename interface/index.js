@@ -4,7 +4,7 @@ const WebSocket = require('ws')
 
 const state = {
   scrollTop: '',
-  screenAmount: 0,
+  screenAmount: 7,
   topbarTextOffset: 0
 }
 
@@ -16,7 +16,7 @@ const wss = new WebSocket.Server({ port: 3334 })
 
 wss.on('connection', (ws) => {
   console.log('new connection', wss.clients.size)
-  state.screenAmount = wss.clients.size
+  /* state.screenAmount = wss.clients.size */
   topbar()
 
   ws.on('message', (message) => {
@@ -60,7 +60,7 @@ function topbar() {
     clearInterval(topbarInterval)
   }
 
-  const topbarTextOffsetWidth = 360 * state.screenAmount
+  const topbarTextOffsetWidth = ((360 + 100) * state.screenAmount) + 200
   topbarInterval = setInterval(() => {
     const msg = {
       type: 'topbar-scroll',
