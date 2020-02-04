@@ -75,7 +75,7 @@ setTimeout(() => {
   if (Number(id) === 1) {
     return
   } else if (Number(id) === 6 || Number(id) === 7) {
-    x = ((id * screenWidth) + ((id + 1) * dividerWidth)) - screenWidth
+    x = ((id * screenWidth) + (id * dividerWidth) + dividerWidth) - screenWidth
   } else {
     x = ((id * screenWidth) + ((id - 1) * dividerWidth)) - screenWidth
   }
