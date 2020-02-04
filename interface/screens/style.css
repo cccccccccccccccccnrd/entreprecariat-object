@@ -95,7 +95,7 @@ section {
 
 .gap {
   width: var(--gap-width);
-  background: blue;
+  background: black;
 }
 
 #topbar {
